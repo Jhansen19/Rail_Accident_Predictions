@@ -2,6 +2,10 @@
 
 This repository contains all scripts, data processing notebooks, and outputs for predicting train accident risk across Indiana rail segments by combining train volume, historical accident, commodity hazard, and community vulnerability data. The goal is to provide the State of Indiana with actionable maps highlighting high‑risk segments—especially those transporting hazardous goods through vulnerable communities.
 
+You can also review the full project report in the [United States Freight Rail Vulnerabilities.pdf](https://github.com/Jhansen19/Rail_Accident_Predictions/blob/main/United%20States%20Freight%20Rail%20Vulnerabilities.pdf) for more detailed context and findings.
+
+---
+
 ## Table of Contents
 
 * [Read below for instructions on how to generate the risk indices](#read-below-for-instructions-on-how-to-generate-the-risk-indices)
@@ -23,11 +27,11 @@ This repository contains all scripts, data processing notebooks, and outputs for
 
 1. **Run** `Commodity_Data_ETL.ipynb` to produce `Indiana_Rail_FAF.csv`.
 
-   * *Note:* Passthrough volume estimation can take \~1 hour and cannot run on GitHub without these dependencies (too large to upload):
+   * *Note:* Passthrough volume estimation can take \~1 hour and requires the following dependencies (too large to store here):
 
      * [tl\_2024\_us\_county.zip (80 MB)](https://www2.census.gov/geo/tiger/TIGER2024/COUNTY/)
      * [FAF5.6.1.zip (500 MB+)](https://www.bts.gov/faf)
-2. **Run** `AAR Analysis-City Estimates.ipynb` to output `AAR_Analysis_City_Estimates.xlsx` (commodity risk indices by city).
+2. **Run** `AAR Analysis-City Estimates.ipynb` to generate `AAR_Analysis_City_Estimates.xlsx` (commodity risk indices by city).
 
 ### SVI Risk Data
 
@@ -52,10 +56,10 @@ This repository contains all scripts, data processing notebooks, and outputs for
 
 This project predicts the likelihood of train accidents on Indiana rail segments by integrating:
 
-* **Historical accidents** (2011–present)
-* **Annual train volumes** (spatially joined to track segments)
-* **Community vulnerability** (census‑tract SVI, income inequality)
-* **Commodity hazard** (ranked 1–10 by toxicity/danger, 10 highest)
+* Historical accidents (2011–present)
+* Annual train volumes (spatially joined to track segments)
+* Community vulnerability (census‑tract SVI, income inequality)
+* Commodity hazard (ranked 1–10 by toxicity/danger, 10 highest)
 
 Designed for the State of Indiana, our analysis pinpoints segments transporting hazardous materials through the most vulnerable communities, aiding resource allocation and preventative action.
 
@@ -71,7 +75,7 @@ Designed for the State of Indiana, our analysis pinpoints segments transporting 
 
    * Spatial join links accident points to track segments.
    * Accident counts aggregated per segment per year.
-   * Merged with annual train volume and segment length.
+   * Data merged with annual train volume, track length, commodity hazard, and census‑tract vulnerability.
 2. **Statistical Modeling**
 
    * **Model:** Poisson regression (suitable for count data).
@@ -79,44 +83,47 @@ Designed for the State of Indiana, our analysis pinpoints segments transporting 
 
      * Log of annual train volume
      * Track segment length
-3. **Prediction**
+     * Commodity hazard score (1–10)
+     * Community vulnerability index (SVI, 1–10)
+3. **Prediction Process**
 
-   * Trained on 80% of data, predicts expected accidents for each segment.
-   * Outputs a **risk index** (predicted count) for each segment.
+   * Trained on 80% of data.
+   * Predicts expected accident count (risk index) for each segment.
 
 ### Model Verification and Testing
 
 * **Test Set:** Remaining 20% of data.
-* **Metrics:**
+* **Performance Metrics:**
 
-  * MSE ≈ 2.77
-  * RMSE ≈ 1.66
-  * MAE ≈ 0.75
-  * R² ≈ 0.03 (indicates other factors likely influence risk)
+  * MSE ≈ 2.77
+  * RMSE ≈ 1.66
+  * MAE ≈ 0.75
+  * R² ≈ 0.03 (indicates additional factors beyond those included)
 
 ### Ways to Improve the Model
 
-* **Additional Predictors:** Track condition, maintenance, weather, human factors.
-* **Temporal Analysis:** Seasonality and year‑over‑year volume changes.
+* **Additional Predictors:** Track condition, maintenance records, weather, human factors.
+* **Temporal Analysis:** Seasonality and year‑over‑year volume trends.
 * **Advanced Techniques:** Negative Binomial regression, Random Forests, Gradient Boosting.
-* **Data Quality:** More precise GPS, up‑to‑date volume records.
+* **Data Quality:** More precise GPS, up‑to‑date train volume data.
 
 ### Understanding the Risk Index
 
 * **Definition:** Predicted accident count per segment.
 * **Usage:**
 
-  * **Interactive maps** color-code segments by risk.
-  * **Resource allocation** targets high‑risk, high‑vulnerability corridors.
-  * **Preventative actions** (maintenance, inspections) prioritized accordingly.
+  * **Interactive Maps:** Color‑code segments by risk.
+  * **Resource Allocation:** Target high‑risk, high‑vulnerability corridors.
+  * **Preventative Actions:** Prioritize inspections and maintenance where needed.
 
 ### Additional Details
 
-* **Community Focus:** Combines train capacity, accident probability, commodity hazard (1–10) and census‑tract vulnerability (SVI) to highlight critical areas.
+* **Community Focus:** Combines train capacity, accident probability, commodity hazard, and census‑tract vulnerability to highlight critical areas.
 * **Interactive Map:** Built with Folium; shows rail lines overlaid on census tracts, colored by combined vulnerability.
-  ![Combined Vulnerability Map](images/combined_vulnerability_map.jpg)
 
-### Conclusion
+---
 
-By uniting volume, historical accident, commodity, and community data, this analysis provides the State of Indiana with a detailed risk landscape. While the model is a foundation (R² = 0.03), it guides targeted safety interventions on the most vulnerable and hazardous rail segments.
+## Conclusion
+
+By uniting volume, historical accident, commodity hazard, and community vulnerability data, this analysis provides the State of Indiana with a detailed risk landscape. While the model explains a portion of variability (R² = 0.03), it offers a foundation for targeted safety interventions on the most vulnerable and hazardous rail segments.
 
