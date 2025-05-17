@@ -1,3 +1,13 @@
+## Table of Contents
+
+- [Commodity Risk Data](#commodity-risk-data)
+- [SVI Risk Data](#svi-risk-data)
+- [Merging Commodity and SVI Risk Data](#merging-commodity-and-svi-risk-data)
+- [Generating Rail Segment Accident Predictions](#generating-rail-segment-accident-predictions)
+- [RiskIndex Generations](#riskindex-generations)
+- [Report: Predicting Train Accidents Based on Train Volumes in Indiana](#report-predicting-train-accidents-based-on-train-volumes-in-indiana)
+- [Conclusion](#conclusion)
+
 # Read below for intructions on how to generate the risk indices 
 
 Commodity Risk Data
