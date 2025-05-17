@@ -31,9 +31,7 @@ Generating Rail Segment Accident Predictions
 1. Run TrainVolumes.ipynb, data dependencies available in the data folder, outputs train_volumes.parquet to the data folder
 2. Run VolumeProjection.ipynb to track_segment_volumes.csv in the data folder
 3. Run TrainAccidentPrediction.ipynb, dependent on Indiana_accidents_since_2011_v2.csv, produces annual_accident_probabilities.csv
-
-RiskIndex Generations
-1.Run RiskIndex_Generation.ipynb to generate combined_vulnerability_map.html
+4.Run RiskIndex_Generation.ipynb to generate combined_vulnerability_map.html
 
 # Report: Predicting Train Accidents Based on Train Volumes in Indiana
 
